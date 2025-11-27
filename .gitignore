@@ -1,0 +1,38 @@
+node_modules
+.DS_Store
+
+/build
+/server-build
+.env
+.cache
+
+
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/tests/fixtures/email/
+/tests/fixtures/uploaded/
+/tests/fixtures/openimg/
+/coverage
+
+/other/cache.db
+
+# Uploaded files and user content
+/uploads/
+/uploads/memory-cards/.metadata/
+*.ps2
+*.mc2
+*.psu
+*.xps
+*.max
+*.sps
+*.cbs
+*.psv
+
+# Temporary files
+*.local.*
+COMMIT_MESSAGE.txt
+
+# generated files
+/app/components/ui/icons
+.react-router/
