@@ -143,7 +143,7 @@
     "vitest": "^4.0.9"
   },
   "engines": {
-    "node": "22"
+    "node": "24"
   },
   "epic-stack": {
     "head": "97135fcd7899cab299b402f36804b0d169e87d9d",

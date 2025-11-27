@@ -44,7 +44,7 @@ A web application for managing PlayStation 2 memory card files (.ps2, .mc2) with
 
 ## Prerequisites
 
-- Node.js 20+ 
+- Node.js 24+ 
 - npm or pnpm
 - Python 3.11+ (for mymcplusplus)
 - mymcplusplus installed: `pip install mymcplusplus`
