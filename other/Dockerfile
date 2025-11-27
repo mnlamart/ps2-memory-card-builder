@@ -6,8 +6,16 @@ FROM node:24-bookworm-slim as base
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
 
-# Install required packages
-RUN apt-get update && apt-get install -y ca-certificates
+# Install required packages including Python and pip for mymcplusplus
+# mymcplusplus is required for PS2 memory card operations (format, import, export, etc.)
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install mymcplusplus (Python package for PS2 memory card manipulation)
+RUN pip3 install --no-cache-dir mymcplusplus
 
 # Install all node_modules, including dev dependencies
 FROM base as deps

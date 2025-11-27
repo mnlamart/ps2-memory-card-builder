@@ -1,4 +1,4 @@
-import { FileText, MoreVertical, Trash2, Shield, Calendar, HardDrive } from 'lucide-react'
+import { Gamepad2, MoreVertical, Trash2, Shield, Calendar, HardDrive } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog.tsx'
@@ -59,7 +59,7 @@ export function SaveFileItem({
 	}
 
 	return (
-		<Card className="cursor-pointer hover:bg-accent/50 transition-colors">
+		<Card className="cursor-pointer hover:bg-accent/50 transition-colors shadow-sm hover:shadow-md border">
 			<CardContent className="p-4">
 				<div className="flex items-center gap-4">
 					<div className="shrink-0">
@@ -72,7 +72,7 @@ export function SaveFileItem({
 									onError={() => setImageError(true)}
 								/>
 							) : (
-								<FileText className="h-6 w-6 text-primary" />
+								<Gamepad2 className="h-6 w-6 text-primary" />
 							)}
 						</div>
 					</div>
@@ -81,8 +81,8 @@ export function SaveFileItem({
 						to={`/memory-cards/${memoryCardId}/save/${encodeURIComponent(save.path)}`}
 						className="flex-1 min-w-0"
 					>
-						<div className="flex items-center gap-2 mb-1 flex-wrap">
-							<h3 className="text-foreground truncate">{save.name}</h3>
+						<div className="flex items-center gap-2 mb-1.5 flex-wrap">
+							<h3 className="text-foreground font-semibold truncate">{save.name}</h3>
 							{save.flags?.includes('protected') || save.protectionStatus === 'Protected' ? (
 								<Badge variant="secondary" className="gap-1">
 									<Shield className="h-3 w-3" />
@@ -91,12 +91,12 @@ export function SaveFileItem({
 							) : null}
 						</div>
 						{save.gameTitle && (
-							<p className="text-sm text-muted-foreground mb-1">
+							<p className="text-sm text-muted-foreground mb-1.5 leading-relaxed">
 								{save.gameTitle}
 							</p>
 						)}
 						{save.folder && !save.gameTitle && (
-							<p className="text-sm text-muted-foreground mb-1">
+							<p className="text-sm text-muted-foreground mb-1.5 leading-relaxed">
 								{save.folder}
 							</p>
 						)}
@@ -118,7 +118,7 @@ export function SaveFileItem({
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="ghost" size="icon">
+							<Button variant="ghost" size="icon" className="h-10 w-10">
 								<MoreVertical className="h-4 w-4" />
 							</Button>
 						</DropdownMenuTrigger>
@@ -127,7 +127,7 @@ export function SaveFileItem({
 								<Link
 									to={`/memory-cards/${memoryCardId}/save/${encodeURIComponent(save.path)}`}
 								>
-									<FileText className="h-4 w-4 mr-2" />
+									<Gamepad2 className="h-4 w-4 mr-2" />
 									View Details
 								</Link>
 							</DropdownMenuItem>

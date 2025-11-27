@@ -1,5 +1,7 @@
-import { ArrowLeft, Download, Trash2, Shield, FileText, Calendar, HardDrive, FolderOpen, Info } from 'lucide-react'
-import { redirect, Form, Link, useLoaderData  } from 'react-router'
+import { ArrowLeft, Download, Trash2, Shield, Gamepad2, Calendar, HardDrive, FolderOpen, Info } from 'lucide-react'
+import { useEffect } from 'react'
+import { redirect, Form, Link, useLoaderData, useNavigate  } from 'react-router'
+import { Breadcrumbs } from '#app/components/breadcrumbs.tsx'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -117,6 +119,18 @@ type SaveData = {
 export default function SaveFileDetail() {
 	const { card, save: saveData } = useLoaderData<typeof loader>()
 	const save = saveData as SaveData
+	const navigate = useNavigate()
+
+	// Add keyboard shortcut for back navigation
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				navigate(`/memory-cards/${card.id}`)
+			}
+		}
+		window.addEventListener('keydown', handleKeyDown)
+		return () => window.removeEventListener('keydown', handleKeyDown)
+	}, [navigate, card.id])
 
 	const formatBytes = (bytes: number) => {
 		if (bytes === 0) return '0 B'
@@ -144,20 +158,27 @@ export default function SaveFileDetail() {
 	return (
 		<div className="min-h-screen">
 			<header className="border-b bg-card">
-				<div className="container mx-auto px-4 py-4">
+				<div className="container mx-auto px-4 py-5">
+					<Breadcrumbs
+						items={[
+							{ label: card.name, href: `/memory-cards/${card.id}` },
+							{ label: save.name },
+						]}
+						className="mb-4"
+					/>
 					<div className="flex items-center gap-4 mb-4">
 						<Link to={`/memory-cards/${card.id}`}>
-							<Button variant="ghost" size="icon">
+							<Button variant="ghost" size="icon" className="h-10 w-10">
 								<ArrowLeft className="h-5 w-5" />
 							</Button>
 						</Link>
 						<div className="flex items-center gap-3 flex-1">
 							<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
-								<FileText className="h-6 w-6 text-primary" />
+								<Gamepad2 className="h-6 w-6 text-primary" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<div className="flex items-center gap-2 mb-1 flex-wrap">
-									<h1 className="text-foreground">{save.name}</h1>
+								<div className="flex items-center gap-2 mb-1.5 flex-wrap">
+									<h1 className="text-foreground font-bold text-xl">{save.name}</h1>
 									{isProtected && (
 										<Badge variant="secondary" className="gap-1">
 											<Shield className="h-3 w-3" />
@@ -165,7 +186,7 @@ export default function SaveFileDetail() {
 										</Badge>
 									)}
 								</div>
-								<p className="text-sm text-muted-foreground">
+								<p className="text-sm text-muted-foreground mt-1">
 									{card.filename}
 								</p>
 							</div>

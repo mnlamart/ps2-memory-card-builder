@@ -1,7 +1,8 @@
-import { Upload, RefreshCw, AlertTriangle, HardDrive, Download, Trash2 } from 'lucide-react'
+import { Upload, RefreshCw, AlertTriangle, Database, Download, Trash2, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { redirect, Link, Outlet, useLoaderData, useFetcher, useNavigate } from 'react-router'
 import { AppHeader } from '#app/components/app-header.tsx'
+import { Breadcrumbs } from '#app/components/breadcrumbs.tsx'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '#app/components/ui/alert-dialog.tsx'
 import { Badge } from '#app/components/ui/badge.tsx'
 import { Button } from '#app/components/ui/button.tsx'
@@ -69,22 +70,26 @@ export default function MemoryCardLayout() {
 			<AppHeader showSearch={false} showActions={true} />
 			
 			<div className="border-b bg-card">
-				<div className="container mx-auto px-4 py-4">
-					<div className="flex items-center gap-4 mb-4">
+				<div className="container mx-auto px-4 py-5">
+					<Breadcrumbs
+						items={[{ label: card.name }]}
+						className="mb-4"
+					/>
+					<div className="flex items-center gap-4 mb-6">
 						<div className="flex items-center gap-3 flex-1">
 							<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
-								<HardDrive className="h-6 w-6 text-primary" />
+								<Database className="h-6 w-6 text-primary" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<h1 className="text-foreground truncate">{card.name}</h1>
-								<p className="text-sm text-muted-foreground">
+								<h1 className="text-foreground font-bold text-xl truncate">{card.name}</h1>
+								<p className="text-sm text-muted-foreground mt-1">
 									{formatBytes(card.size)} • {contents.length} save files
 								</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 						<Card>
 							<CardContent className="p-4">
 								<div className="space-y-2">
@@ -128,7 +133,7 @@ export default function MemoryCardLayout() {
 						</Card>
 					</div>
 
-					<div className="flex flex-wrap gap-2">
+					<div className="flex flex-wrap gap-2 mb-2">
 						<Button variant="outline" asChild>
 							<a
 								href={`/memory-cards/${card.id}/download`}
@@ -190,7 +195,14 @@ export default function MemoryCardLayout() {
 											variant="destructive"
 											className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
 										>
-											{deleteFetcher.state !== 'idle' ? 'Deleting...' : 'Delete'}
+											{deleteFetcher.state !== 'idle' ? (
+												<>
+													<Loader2 className="h-4 w-4 mr-2 animate-spin-slow" />
+													Deleting...
+												</>
+											) : (
+												'Delete'
+											)}
 										</Button>
 									</AlertDialogFooter>
 								</deleteFetcher.Form>

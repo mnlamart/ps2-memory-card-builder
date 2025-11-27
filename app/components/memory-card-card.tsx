@@ -1,4 +1,4 @@
-import { HardDrive, MoreVertical, Download, Pencil } from 'lucide-react'
+import { Database, MoreVertical, Download, Pencil } from 'lucide-react'
 import { Link } from 'react-router'
 import { Badge } from './ui/badge.tsx'
 import { Button } from './ui/button.tsx'
@@ -41,12 +41,12 @@ export function MemoryCardCard({ card }: MemoryCardCardProps) {
 	}
 
 	return (
-		<Card className="cursor-pointer hover:bg-accent/50 transition-colors">
+		<Card className="cursor-pointer hover:bg-accent/50 transition-colors shadow-sm hover:shadow-md border">
 			<CardContent className="p-4">
 				<div className="flex items-center gap-4">
 					<div className="shrink-0">
 						<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-							<HardDrive className="h-6 w-6 text-primary" />
+							<Database className="h-6 w-6 text-primary" />
 						</div>
 					</div>
 
@@ -54,8 +54,8 @@ export function MemoryCardCard({ card }: MemoryCardCardProps) {
 						to={`/memory-cards/${card.id}`}
 						className="flex-1 min-w-0"
 					>
-						<div className="flex items-center gap-2 mb-1">
-							<h3 className="text-foreground truncate">{card.name}</h3>
+						<div className="flex items-center gap-2 mb-1.5">
+							<h3 className="text-foreground font-semibold truncate">{card.name}</h3>
 							<Badge variant="secondary" className="shrink-0">
 								{card.saveCount} saves
 							</Badge>
@@ -66,11 +66,11 @@ export function MemoryCardCard({ card }: MemoryCardCardProps) {
 						</div>
 					</Link>
 
-					<div className="flex items-center gap-4">
-						<div className="hidden md:block w-48">
+					<div className="flex items-center gap-4 shrink-0">
+						<div className="hidden lg:block w-48">
 							<div className="flex items-center justify-between text-sm mb-1">
 								<span className="text-muted-foreground">Storage</span>
-								<span className="text-foreground">
+								<span className="text-foreground font-medium">
 									{formatBytes(card.freeSpace)} free
 								</span>
 							</div>
@@ -79,14 +79,14 @@ export function MemoryCardCard({ card }: MemoryCardCardProps) {
 
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="ghost" size="icon">
+								<Button variant="ghost" size="icon" className="h-10 w-10">
 									<MoreVertical className="h-4 w-4" />
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
 								<DropdownMenuItem asChild>
 									<Link to={`/memory-cards/${card.id}`}>
-										<HardDrive className="h-4 w-4 mr-2" />
+										<Database className="h-4 w-4 mr-2" />
 										Open Card
 									</Link>
 								</DropdownMenuItem>

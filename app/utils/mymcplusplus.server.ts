@@ -53,9 +53,16 @@ async function executeCommand(
 		})
 
 		child.on('error', (error) => {
+			let errorMessage = error.message
+			
+			// Provide helpful error message for ENOENT (command not found)
+			if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+				errorMessage = `Command "${MYMCPLUSPLUS_CMD}" not found. Please ensure mymcplusplus is installed and available in your PATH, or set the MYMCPLUSPLUS_CMD environment variable to the full path of the mymcplusplus executable.\n\nInstallation: pip install mymcplusplus`
+			}
+			
 			resolve({
 				stdout: '',
-				stderr: error.message,
+				stderr: errorMessage,
 				exitCode: 1,
 			})
 		})
@@ -76,7 +83,16 @@ export async function format(memoryCardPath: string): Promise<void> {
 	// Create a new formatted memory card at the same path
 	const result = await executeCommand(['-i', memoryCardPath, 'format'])
 	if (result.exitCode !== 0) {
-		throw new Error(`Format failed: ${result.stderr || result.stdout}`)
+		const errorMsg = result.stderr || result.stdout
+		// Check if it's a command not found error
+		if (errorMsg.includes('not found') || errorMsg.includes('ENOENT')) {
+			throw new Error(
+				`mymcplusplus is not installed or not in your PATH. ` +
+				`Please install it with: pip install mymcplusplus\n\n` +
+				`Alternatively, set the MYMCPLUSPLUS_CMD environment variable to the full path of the mymcplusplus executable.`
+			)
+		}
+		throw new Error(`Format failed: ${errorMsg}`)
 	}
 }
 

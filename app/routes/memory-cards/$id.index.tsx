@@ -1,4 +1,4 @@
-import { Upload, Search, SortAsc } from 'lucide-react'
+import { Upload, Search, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { redirect, Link, useLoaderData  } from 'react-router'
 import { SaveFileItem } from '#app/components/save-file-item.tsx'
@@ -71,7 +71,7 @@ export default function MemoryCardDetail() {
 	return (
 		<>
 				<div className="mb-6">
-					<div className="flex flex-col sm:flex-row gap-4">
+					<div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
 						<div className="flex-1">
 							<div className="relative">
 								<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -86,14 +86,14 @@ export default function MemoryCardDetail() {
 						</div>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="outline">
-									<SortAsc className="h-4 w-4 mr-2" />
+								<Button variant="outline" className="w-full sm:w-auto">
 									Sort:{' '}
 									{sortBy === 'name'
 										? 'Name'
 										: sortBy === 'date'
 											? 'Date'
 											: 'Size'}
+									<ChevronDown className="h-4 w-4 ml-2" />
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
@@ -112,12 +112,22 @@ export default function MemoryCardDetail() {
 				</div>
 
 				{filteredSaves.length === 0 ? (
-					<Card>
+					<Card className="border-2 border-dashed">
 						<CardContent className="p-12 text-center">
-							<p className="text-muted-foreground mb-4">
+							<div className="flex justify-center mb-4">
+								<div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+									<Upload className="h-8 w-8 text-muted-foreground" />
+								</div>
+							</div>
+							<h3 className="text-lg font-semibold mb-2">
 								{searchQuery
 									? 'No save files match your search'
 									: 'No save files on this memory card'}
+							</h3>
+							<p className="text-muted-foreground mb-6">
+								{searchQuery
+									? 'Try adjusting your search terms.'
+									: 'Import your first save file to get started.'}
 							</p>
 							{!searchQuery && (
 								<Link to={`/memory-cards/${card.id}/import`}>
@@ -130,13 +140,18 @@ export default function MemoryCardDetail() {
 						</CardContent>
 					</Card>
 				) : (
-					<div className="space-y-2">
-						{filteredSaves.map((save) => (
-							<SaveFileItem
+					<div className="space-y-3">
+						{filteredSaves.map((save, index) => (
+							<div
 								key={save.path}
-								save={save}
-								memoryCardId={card.id}
-							/>
+								className="animate-slide-left"
+								style={{ animationDelay: `${index * 0.05}s` }}
+							>
+								<SaveFileItem
+									save={save}
+									memoryCardId={card.id}
+								/>
+							</div>
 						))}
 					</div>
 				)}

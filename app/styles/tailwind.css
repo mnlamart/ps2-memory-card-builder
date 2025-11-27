@@ -147,6 +147,7 @@
 	--animate-slide-left: slide-left 0.3s ease-out;
 	--animate-slide-top: slide-top 0.3s ease-out;
 	--animate-caret-blink: caret-blink 1.25s ease-out infinite;
+	--animate-spin-slow: spin 2s linear infinite;
 
 	@keyframes roll-reveal {
 		from {
@@ -195,6 +196,12 @@
 		50% {
 			opacity: 0;
 		}
+	}
+}
+
+@layer utilities {
+	.animate-spin-slow {
+		animation: spin 2s linear infinite;
 	}
 }
 

@@ -30,8 +30,8 @@ export function AppHeader({
 							/>
 						</div>
 						<div>
-							<h1 className="text-foreground">Memory Card Manager</h1>
-							<p className="text-sm text-muted-foreground">
+							<h1 className="text-foreground font-bold text-lg">Memory Card Manager</h1>
+							<p className="text-sm text-muted-foreground mt-0.5">
 								PlayStation 2 Save File Management
 							</p>
 						</div>
